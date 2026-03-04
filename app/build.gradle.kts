@@ -56,6 +56,7 @@ dependencies {
     implementation(libs.androidx.material3)
     // my libs
     implementation(libs.hilt.android)
+    implementation(libs.androidx.paging.compose)
     kapt(libs.hilt.compiler)
     implementation(libs.navigation.compose)
     implementation(libs.hilt.nav)

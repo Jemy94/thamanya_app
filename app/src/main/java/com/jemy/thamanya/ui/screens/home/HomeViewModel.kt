@@ -1,4 +1,4 @@
-package com.jemy.thamanya.ui.ui.screens.home
+package com.jemy.thamanya.ui.screens.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
