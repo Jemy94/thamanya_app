@@ -18,8 +18,19 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.jemy.thamanya.HiltTestRunner"
     }
+
+    configurations.all {
+        resolutionStrategy {
+            force(libs.androidx.espresso.core)
+            force(libs.androidx.test.runner)
+            force(libs.androidx.test.monitor)
+            force(libs.androidx.test.rules)
+            force(libs.androidx.test.core)
+        }
+    }
+
     buildFeatures {
         buildConfig = true
     }
@@ -79,9 +90,6 @@ dependencies {
     implementation(libs.okhttp)
     implementation(libs.logging.interceptor)
 
-
-
-
     testImplementation(libs.mockk)
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.turbine)
@@ -94,6 +102,11 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
+    androidTestImplementation(libs.androidx.test.runner)
+    androidTestImplementation(libs.androidx.test.monitor)
+    androidTestImplementation(libs.androidx.test.rules)
+    androidTestImplementation(libs.androidx.test.core)
+
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 }

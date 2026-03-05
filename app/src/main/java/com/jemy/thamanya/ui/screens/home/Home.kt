@@ -11,8 +11,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,12 +29,16 @@ import com.jemy.thamanya.ui.common.AppBar
 import com.jemy.thamanya.ui.common.SectionsScreen
 import com.jemy.thamanya.ui.screens.Navigation
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Home(
     navController: NavController
 ) {
     val viewModel: HomeViewModel = hiltViewModel()
     val sections = viewModel.sectionsPager.collectAsLazyPagingItems()
+
+    // Refreshing state is true if we are loading and already have items
+    val isRefreshing = sections.loadState.refresh is LoadState.Loading && sections.itemCount > 0
 
     Scaffold(
         topBar = {
@@ -44,33 +50,44 @@ fun Home(
         }
     ) { padding ->
 
-        Box(
+        PullToRefreshBox(
+            isRefreshing = isRefreshing,
+            onRefresh = { sections.refresh() },
             modifier = Modifier
                 .padding(padding)
                 .fillMaxSize()
         ) {
+            Box(
+                modifier = Modifier.fillMaxSize()
+            ) {
 
-            when (sections.loadState.refresh) {
+                when (sections.loadState.refresh) {
 
-                is LoadState.Loading -> {
-                    CircularProgressIndicator(
-                        modifier = Modifier.align(Alignment.Center)
-                    )
-                }
+                    is LoadState.Loading -> {
+                        // Only show the central loading indicator if we don't have items yet
+                        if (sections.itemCount == 0) {
+                            CircularProgressIndicator(
+                                modifier = Modifier.align(Alignment.Center)
+                            )
+                        }
+                    }
 
-                is LoadState.Error -> {
-                    val error =
-                        (sections.loadState.refresh as LoadState.Error).error
+                    is LoadState.Error -> {
+                        if (sections.itemCount == 0) {
+                            val error = (sections.loadState.refresh as LoadState.Error).error
+                            SimpleError(
+                                message = error.message ?: "Something went wrong",
+                                onRetry = { sections.retry() },
+                                modifier = Modifier.align(Alignment.Center)
+                            )
+                        } else {
+                            SectionsScreen(sections)
+                        }
+                    }
 
-                    SimpleError(
-                        message = error.message ?: "Something went wrong",
-                        onRetry = { sections.retry() },
-                        modifier = Modifier.align(Alignment.Center)
-                    )
-                }
-
-                else -> {
-                    SectionsScreen(sections)
+                    else -> {
+                        SectionsScreen(sections)
+                    }
                 }
             }
         }
