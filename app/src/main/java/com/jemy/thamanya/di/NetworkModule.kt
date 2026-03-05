@@ -87,19 +87,10 @@ object NetworkModule {
     @Singleton
     fun getHttpLoggingInterceptor(): HttpLoggingInterceptor {
         val logging = HttpLoggingInterceptor()
-//        logging.level = HttpLoggingInterceptor.Level.HEADERS
         logging.level =
             if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
         return logging
     }
-
-//    @Provides
-//    @Singleton
-//    fun getNetworkInterceptor(
-//        @ApplicationContext context: Context
-//    ): NetworkInterceptor = object : NetworkInterceptor() {
-//        override fun isInternetAvailable(): Boolean = context.isNetworkAvailable()
-//    }
 
     private fun buildHeaders(chain: Interceptor.Chain, context: Context): Response {
         val builder = chain.request().newBuilder()

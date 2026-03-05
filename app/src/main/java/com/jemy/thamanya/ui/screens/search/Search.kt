@@ -26,7 +26,6 @@ import androidx.navigation.NavController
 import com.jemy.thamanya.R
 import com.jemy.thamanya.ui.common.AppBar
 import com.jemy.thamanya.ui.common.SectionsScreenWithoutPaging
-import com.jemy.thamanya.ui.ui.screens.search.SearchViewModel
 import com.jemy.thamanya.utils.ResourceState
 
 @Composable

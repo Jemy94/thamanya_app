@@ -1,4 +1,4 @@
-package com.jemy.thamanya.ui.ui.screens.search
+package com.jemy.thamanya.ui.screens.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -17,9 +17,12 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class SearchViewModel @Inject constructor(private val repository: SearchRepository) : ViewModel() {
+class SearchViewModel @Inject constructor(
+    private val repository: SearchRepository
+) : ViewModel() {
 
-    private val _state = MutableStateFlow(Resource<List<Section>>(ResourceState.LOADING))
+    private val _state =
+        MutableStateFlow(Resource<List<Section>>(ResourceState.SUCCESS, data = emptyList()))
     val state: StateFlow<Resource<List<Section>>> = _state.asStateFlow()
 
     private val _searchQuery = MutableStateFlow("")
@@ -29,30 +32,37 @@ class SearchViewModel @Inject constructor(private val repository: SearchReposito
 
     fun onSearchQueryChange(newQuery: String) {
         _searchQuery.value = newQuery
+
         searchJob?.cancel()
+
         searchJob = viewModelScope.launch {
-            delay(200)
-            if (newQuery.isNotEmpty()) {
-                loadSearchData()
-            } else {
+            delay(200) // debounce
+
+            if (newQuery.isBlank()) {
                 _state.value = Resource(ResourceState.SUCCESS, data = emptyList())
+                return@launch
             }
+
+            loadSearchData(newQuery)
         }
     }
 
-    private fun loadSearchData() {
-        viewModelScope.launch {
-            try {
-                _state.value = Resource(ResourceState.LOADING)
-                val data = repository.getSearchResult().sections
-                if (data != null && data.isNotEmpty()) {
-                    _state.value = Resource(ResourceState.SUCCESS, data = data)
-                } else {
-                    _state.value = Resource(ResourceState.ERROR, message = "No Data Found")
-                }
-            } catch (e: Exception) {
-                _state.value = Resource(ResourceState.ERROR, message = e.message ?: "Unknown error")
+    private suspend fun loadSearchData(query: String) {
+        try {
+            _state.value = Resource(ResourceState.LOADING)
+
+            val result = repository.getSearchResult()
+
+            val sections = result.sections
+
+            if (!sections.isNullOrEmpty()) {
+                _state.value = Resource(ResourceState.SUCCESS, data = sections)
+            } else {
+                _state.value = Resource(ResourceState.ERROR, message = "No Data Found")
             }
+
+        } catch (e: Exception) {
+            _state.value = Resource(ResourceState.ERROR, message = e.message ?: "Unknown error")
         }
     }
 }

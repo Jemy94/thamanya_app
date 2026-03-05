@@ -1,9 +1,7 @@
 package com.jemy.thamanya.ui.common
 
-//noinspection SuspiciousImport
 import android.util.Log
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -109,7 +107,7 @@ fun SquareItem(
         AppCard(
             modifier = Modifier.size(140.dp),
         ) {
-            Log.d("IMAGE" , "imageURL: ${content.avatarUrl}");
+            Log.d("IMAGE", "SquareItem imageURL: ${content.avatarUrl}");
             AsyncImage(
                 model = content.avatarUrl,
                 contentDescription = null,
@@ -140,7 +138,7 @@ fun BigSquareItem(
             .padding(end = 12.dp)
     ) {
         Box {
-            Log.d("IMAGE" , "imageURL: ${content.avatarUrl}");
+            Log.d("IMAGE", "BigSquareItem imageURL: ${content.avatarUrl}");
             AsyncImage(
                 model = content.avatarUrl,
                 contentDescription = null,
@@ -188,7 +186,7 @@ fun QueueItem(
             modifier = Modifier.padding(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Log.d("IMAGE" , "imageURL: ${content.avatarUrl}");
+            Log.d("IMAGE", " QueueItem imageURL: ${content.avatarUrl}");
             AsyncImage(
                 model = content.avatarUrl,
                 contentDescription = null,
@@ -270,7 +268,7 @@ fun QueueSmallItem(
             modifier = Modifier.padding(6.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Log.d("IMAGE" , "imageURL: ${content.avatarUrl}");
+            Log.d("IMAGE", " QueueSmallItem imageURL: ${content.avatarUrl}");
             AsyncImage(
                 model = content.avatarUrl,
                 contentDescription = null,
@@ -287,64 +285,6 @@ fun QueueSmallItem(
                 fontWeight = FontWeight.SemiBold,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
-            )
-        }
-    }
-}
-
-@Composable
-fun TwoLinesGridSection(contents: List<Content>) {
-
-    val grouped = contents.chunked(2)
-
-    LazyRow(
-        contentPadding = PaddingValues(horizontal = 16.dp),
-        horizontalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
-        items(grouped) { pair ->
-
-            Column(
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-                modifier = Modifier.width(260.dp)
-            ) {
-
-                pair.getOrNull(0)?.let {
-                    QueueCompactItem(it)
-                }
-
-                pair.getOrNull(1)?.let {
-                    QueueCompactItem(it)
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun QueueCompactItem(content: Content) {
-    Card(
-        shape = RoundedCornerShape(14.dp),
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(70.dp)
-    ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Log.d("IMAGE" , "imageURL: ${content.avatarUrl}");
-            AsyncImage(
-                model = content.avatarUrl,
-                contentDescription = null,
-                modifier = Modifier
-                    .size(60.dp)
-                    .clip(RoundedCornerShape(12.dp))
-            )
-
-            Spacer(modifier = Modifier.width(8.dp))
-
-            Text(
-                text = content.name.orEmpty(),
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                fontWeight = FontWeight.SemiBold
             )
         }
     }

@@ -1,7 +1,6 @@
 package com.jemy.thamanya.data.repo
 
 import com.jemy.thamanya.data.models.HomeResponse
-import com.jemy.thamanya.data.models.SearchResult
 import com.jemy.thamanya.data.remote.ApiService
 import javax.inject.Inject
 
