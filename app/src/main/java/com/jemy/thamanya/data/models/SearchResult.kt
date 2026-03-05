@@ -1,6 +1,5 @@
 package com.jemy.thamanya.data.models
 
-
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

@@ -69,12 +69,6 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun providesApiInterface(retrofit: Retrofit): ApiService = retrofit.create(
-        ApiService::class.java
-    )
-
-    @Provides
-    @Singleton
     fun getOkHttpClient(
         loggingInterceptor: HttpLoggingInterceptor,
         @ApplicationContext context: Context

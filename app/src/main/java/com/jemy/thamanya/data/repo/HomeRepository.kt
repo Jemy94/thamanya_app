@@ -7,8 +7,5 @@ import javax.inject.Inject
 
 class HomeRepository @Inject constructor(private val apiService: ApiService) {
 
-    suspend fun getHomeData(): HomeResponse = apiService.getHomeDate()
-    suspend fun getSearchResult(): SearchResult = apiService.getSearchResult()
-
-
+    suspend fun getHomeData(page: Int = 1): HomeResponse = apiService.getHomeDate(page)
 }

@@ -1,4 +1,4 @@
-package com.jemy.thamanya.ui.ui.themes
+package com.jemy.thamanya.ui.themes
 
 import androidx.compose.ui.graphics.Color
 
@@ -14,3 +14,9 @@ val primaryColor = Color(0xFF009688)
 val primaryDarkColor = Color(0xFF00796B)
 val accentColor = Color(0xFF64FFDA)
 val backgroundColor = Color(0xFFE0F2F1)
+
+// Dark Mode Colors
+val DarkBackground = Color(0xFF121212)
+val DarkSurface = Color(0xFF1E1E1E)
+val OnDarkBackground = Color(0xFFFFFFFF)
+val OnDarkSurface = Color(0xFFFFFFFF)

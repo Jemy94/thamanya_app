@@ -9,6 +9,7 @@
 
     <application
         android:allowBackup="true"
+        android:name=".ThamanyaApp"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
@@ -17,7 +18,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Thamanya">
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.Thamanya">
